@@ -25,7 +25,7 @@ app.get("/movies", async (req, res) => {
     res.json(result)
     return
   }
-  const result = await db.all(`SELECT * FROM movies`)
+  const result = await db.all(`SELECT * FROM movies ORDER BY id DESC`)
   res.json(result)
 })
 
