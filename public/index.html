@@ -29,29 +29,41 @@
     </div>
   </form>
 
-  <ul>
-    <li>
-      <strong>title</strong>
-      title
-      <ul>
-        <li>
-          <strong>source</strong>
-          source
-        </li>
-        <li>
-          <strong>thumb</strong>
-          thumb
-        </li>
-        <li>
-          <strong>description</strong>
-          description
-        </li>
-      </ul>
-    </li>
+  <ul class="movie-list">
+    <!--  -->
   </ul>
 
   <script>
+    const domMovieList = document.querySelector("ul.movie-list")
+    
+    async function listarTodosOsFilmes() {
+      const response = await fetch("/movies")
+      const movies = await response.json()
+      movies.forEach(movie => {
+        domMovieList.innerHTML += `  
+          <li>
+            <strong>title</strong>
+            ${movie.title}
+            <ul>
+              <li>
+                <strong>source</strong>
+                ${movie.source}
+              </li>
+              <li>
+                <strong>thumb</strong>
+                ${movie.thumb}
+              </li>
+              <li>
+                <strong>description</strong>
+                ${movie.description}
+              </li>
+            </ul>
+          </li>
+        `
+      });
+    }
 
+    listarTodosOsFilmes()
   </script>
 </body>
 
