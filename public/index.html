@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Teste</title>
 </head>
-<body>
-  <script>
-    async function main() {
-      const request = await fetch("meus-dados.json")
-      const data = await request.json()
-      const year = new Date().getFullYear()
 
-      data.forEach(pessoa => {
-        document.body.innerHTML += `<button>
-            ${pessoa.nome}, 
-            ${year - pessoa["data-nascimento"][0]}, 
-            ${pessoa["usa-oculos"] ? "Usa Óculos" : ""}
-          </button>` 
-      })
-    }
-    main()
+<body>
+  <form>
+    <div>
+      <label for="title">title</label>
+      <input name="title" id="title">
+    </div>
+    <div>
+      <label for="source">source</label>
+      <input name="source" id="source">
+    </div>
+    <div>
+      <label for="description">description</label>
+      <input name="description" id="description">
+    </div>
+    <div>
+      <label for="thumb">thumb</label>
+      <input name="thumb" id="thumb">
+    </div>
+  </form>
+
+  <script>
+
   </script>
 </body>
+
 </html>
