@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <title>Teste</title>
   <style>
-    ul, li {
+    ul,
+    li {
       list-style: none;
       margin: 0;
       padding: 0;
@@ -16,30 +17,46 @@
       flex-wrap: wrap;
     }
 
-    ul.movie-list > li {
+    ul.movie-list>li {
       border: 1px solid #000000;
       margin: 1rem;
       cursor: pointer;
     }
-    
-    ul.movie-list > li > div {
+
+    ul.movie-list>li>div {
       background-color: #000000;
       padding: .25rem .5rem;
       color: #FFFFFF;
     }
 
-    ul.movie-list > li > ul {
+    ul.movie-list>li>ul {
       padding: .5rem;
       transition: .3s;
     }
 
-    ul.movie-list > li > ul:hover {
+    ul.movie-list>li>ul:hover {
       background-color: #00000033;
     }
-    </style>
+  </style>
 </head>
 
 <body>
+  <dialog>
+    <header>
+      <h1>Logue-se</h1>
+    </header>
+    <main>
+      <form action="dialog">
+        <input placeholder="login" name="login">
+        <input placeholder="senha" name="senha">
+      </form>
+    </main>
+    <footer>
+      <div class="msg"></div>
+      <button class="bt-send">logar</button>
+      <button class="bt-cancel">cancelar</button>
+    </footer>
+  </dialog>
   <form class="form-alterar">
     <div>
       <label for="title">title</label>
@@ -69,11 +86,37 @@
   <script>
     const domMovieList = document.querySelector("ul.movie-list")
     const domFormAlterar = document.querySelector("form.form-alterar")
+    const loginModal = document.querySelector("dialog")
+    const loginForm = loginModal.querySelector("form")
+    const loginMsg = loginModal.querySelector(".msg")
+    const loginFormButtonSend = loginModal.querySelector(".bt-send")
+
+    // ---✀------------------------------------------------------------------
+
+    if (!localStorage.getItem("token")) {
+      loginModal.showModal()
+    } else {
+      listarTodosOsFilmes()
+    }
+
+    loginFormButtonSend.addEventListener("click", async ev => {
+      const { login, senha } = loginForm
+      const response = await fetch(`/login?login=${login.value}&senha=${senha.value}`)
+      const data = await response.json()
+      if (data.token) {
+        localStorage.setItem("token", data.token)
+        loginModal.close()
+        listarTodosOsFilmes()
+        return
+      }
+      loginMsg.innerHTML = `<strong>Usuário e/ou senha inválidos</strong>`
+    })
+
 
     // ---✀------------------------------------------------------------------
 
     async function listarTodosOsFilmes() {
-      const response = await fetch("/movies")
+      const response = await fetch(`/movies?token=${localStorage.getItem("token")}`)
       const movies = await response.json()
       domMovieList.innerHTML = ""
       movies.forEach(movie => {
@@ -102,8 +145,6 @@
       });
     }
 
-    listarTodosOsFilmes()
-
     // ---✀------------------------------------------------------------------
 
     domFormAlterar.addEventListener("submit", async ev => {
@@ -118,12 +159,12 @@
         thumb: domFormAlterar.thumb.value,
       })
 
-      const response = await fetch("/movies", {
+      const response = await fetch(`/movies?token=${localStorage.getItem("token")}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body
       })
-      
+
       const result = await response.json()
       domFormAlterar.reset()
 
