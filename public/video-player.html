@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf8">
+  <title>Player</title>
+  <link rel="stylesheet" href="video-player.css">
+  <script defer async src="video-player.js"></script>
+</head>
+
+<body>
+  
+  <div class="ia21-player" data-playlist="movies">
+    <video>
+      <!-- https://gist.github.com/jsturgis/3b19447b304616f18657 -->
+      <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+    </video>
+    <div class="controllers">
+      <button class="play-pause" data-pause-icon="⏸" data-play-icon="▶">
+        ▶
+      </button>
+      <div class="dragbar timeline">
+        <div class="draggable"></div>
+      </div>
+      <div class="timer">
+        00:00:00
+      </div>
+      <div class="dragbar volume">
+        <div class="draggable"></div>
+      </div>
+    </div>
+    <div class="playlist">
+    </div>
+  </div>
+
+</body>
+
+</html>

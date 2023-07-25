@@ -26,7 +26,6 @@ app.get("/login", (req, res) => {
   if (login == "daniel" && senha == "123123") {
     const hash = crypto.randomBytes(20).toString('hex')
     loginTokens.push(hash)
-    console.log(hash)
     res.json({ error: false, token: hash })
     return
   }
@@ -43,7 +42,7 @@ app.post("/movies", login, async (req, res) => {
 })
 
 // READ
-app.get("/movies", login, async (req, res) => {
+app.get("/movies", async (req, res) => {
   const { id } = req.query
   const db = await getDatabaseInstance()
   if (id) {
